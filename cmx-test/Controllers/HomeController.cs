@@ -8,13 +8,20 @@
     {
         [HttpPost]
         [Route("api/events")]
-        public void Index(Message m)
+        public Message Index(RawMessage m)
         {
             using (var dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)))
             {
-                dbContext.Messages.Add(m);
+                dbContext.Messages.Add(m.Data);
                 dbContext.SaveChanges();
             }
+
+            return m.Data;
         }
-    }   
+    }
+
+    public class RawMessage
+    {
+        public Message Data { get; set; }
+    }
 }
