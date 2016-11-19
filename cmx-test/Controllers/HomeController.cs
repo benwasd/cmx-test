@@ -1,34 +1,50 @@
 ﻿namespace crxtest.Controllers
 {
+    using System;
     using System.Configuration;
     using System.Data.SqlClient;
+    using System.Threading.Tasks;
     using System.Web.Http;
 
     public class HomeController : ApiController
     {
         [HttpPost]
         [Route("api/events")]
-        public string Index(RawMessage m)
+        public async Task<string> Index(RawMessage m)
         {
             try
             {
-                using (var dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)))
-                {
-                    dbContext.Messages.Add(m.Data);
-                    dbContext.SaveChanges();
-                }
-            }
-            catch (System.Exception ex)
-            {
-                return ex.Message;
-            }
+                var message = m.Data;
+                message.Event = m.Type;
 
-            return "OK";
+                await this.PersistMessage(message);
+
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                var message = new Message();
+                message.Event = $"Error, {ex}";
+
+                await this.PersistMessage(message);
+
+                return "FAIL";
+            }
+        }
+
+        private async Task PersistMessage(Message message)
+        {
+            using (var dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)))
+            {
+                dbContext.Messages.Add(message);
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 
     public class RawMessage
     {
         public Message Data { get; set; }
+        public string Type { get; set; }
     }
 }

@@ -31,6 +31,7 @@
         public Guid Id { get; set; } = Guid.NewGuid();
         public string ApMac { get; set; }
         public string ApFloors { get; set; }
+        public string Event { get; set; }
         public ICollection<Observation> Observations { get; set; }
     }
 
