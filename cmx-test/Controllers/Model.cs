@@ -30,7 +30,6 @@
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string ApMac { get; set; }
-        public string ApFloors { get; set; }
         public string Event { get; set; }
         public ICollection<Observation> Observations { get; set; }
     }
@@ -40,8 +39,10 @@
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid MessageId { get; set; }
         public string ClientMac { get; set; }
-        public string ProbeEpoch { get; set; }
-        public string ProbeTime { get; set; }
+        public string IpV4 { get; set; }
+        public string IpV6 { get; set; }
+        public string SeenTime { get; set; }
+        public string SeenEpoch { get; set; }
         public string RSSI { get; set; }
         public string SSID { get; set; }
         public string Manufacturer { get; set; }
