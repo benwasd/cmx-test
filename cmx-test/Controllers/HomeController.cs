@@ -6,17 +6,14 @@
 
     public class HomeController : ApiController
     {
+        private Context dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
+
         [HttpPost]
         [Route("api/events")]
-        public Message Index(RawMessage m)
+        public void Index(RawMessage m)
         {
-            using (var dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)))
-            {
-                dbContext.Messages.Add(m.Data);
-                dbContext.SaveChanges();
-            }
-
-            return m.Data;
+            dbContext.Messages.Add(m.Data);
+            dbContext.SaveChanges();
         }
     }
 
