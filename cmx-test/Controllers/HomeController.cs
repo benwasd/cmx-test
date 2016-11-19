@@ -6,7 +6,7 @@
 
     public class HomeController : ApiController
     {
-        private Context dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
+        private static Context dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
 
         [HttpPost]
         [Route("api/events")]
