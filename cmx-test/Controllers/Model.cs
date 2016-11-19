@@ -42,8 +42,8 @@
         public string IpV4 { get; set; }
         public string IpV6 { get; set; }
         public string SeenTime { get; set; }
-        public string SeenEpoch { get; set; }
-        public string RSSI { get; set; }
+        public int SeenEpoch { get; set; }
+        public int RSSI { get; set; }
         public string SSID { get; set; }
         public string Manufacturer { get; set; }
         public string OS { get; set; }
