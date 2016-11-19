@@ -10,10 +10,17 @@
         [Route("api/events")]
         public Message Index(RawMessage m)
         {
-            using (var dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)))
+            try
             {
-                dbContext.Messages.Add(m.Data);
-                dbContext.SaveChanges();
+                using (var dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)))
+                {
+                    dbContext.Messages.Add(m.Data);
+                    dbContext.SaveChanges();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return new Message { ApFloors = ex.Message };
             }
 
             return m.Data;
