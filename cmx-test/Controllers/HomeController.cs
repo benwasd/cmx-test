@@ -3,6 +3,7 @@
     using System;
     using System.Configuration;
     using System.Data.SqlClient;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
 
@@ -34,6 +35,11 @@
 
         private async Task PersistMessage(Message message)
         {
+            foreach (var observation in message.Observations ?? Enumerable.Empty<Observation>())
+            {
+                observation.Location = observation.Location ?? new Location();
+            }
+
             using (var dbContext = new Context(new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)))
             {
                 dbContext.Messages.Add(message);
