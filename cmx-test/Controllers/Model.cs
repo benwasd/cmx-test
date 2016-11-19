@@ -19,7 +19,8 @@
                 .HasKey(x => x.Id)
                 .HasMany(x => x.Observations).WithRequired().HasForeignKey(x => x.MessageId);
 
-            modelBuilder.Entity<Observation>();
+            modelBuilder.Entity<Observation>()
+                .HasKey(x => x.Id);
 
             modelBuilder.ComplexType<Location>();
         }
@@ -35,7 +36,8 @@
 
     public class Observation
     {
-        public Guid MessageId { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid MessageId { get; set; }
         public string ClientMac { get; set; }
         public string ProbeEpoch { get; set; }
         public string ProbeTime { get; set; }
